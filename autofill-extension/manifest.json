@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Eightfold AI Job Application Autofill",
+  "version": "1.0.0",
+  "description": "Automatically fills job application forms on Eightfold AI platforms (PTC Careers)",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*.eightfold.ai/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.eightfold.ai/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Click to Autofill Application",
+    "default_popup": "popup.html"
+  }
+}

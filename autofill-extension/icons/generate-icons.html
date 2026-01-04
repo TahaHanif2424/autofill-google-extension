@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Icon Generator</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .icon-preview { margin: 10px; display: inline-block; text-align: center; }
+    canvas { border: 1px solid #ccc; }
+    button { margin: 20px 10px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    a { display: block; margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>Eightfold AI Autofill Extension - Icon Generator</h1>
+  <p>Click the buttons below to download the icons, then save them to the icons folder.</p>
+
+  <div id="icons"></div>
+
+  <div id="downloads"></div>
+
+  <script>
+    const sizes = [16, 48, 128];
+    const container = document.getElementById('icons');
+    const downloads = document.getElementById('downloads');
+
+    function drawIcon(size) {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+
+      // Create gradient background
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#4CAF50');
+      gradient.addColorStop(1, '#2E7D32');
+
+      // Draw rounded rectangle
+      const radius = size * 0.15;
+      ctx.beginPath();
+      ctx.roundRect(0, 0, size, size, radius);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      // Draw letter "A"
+      ctx.fillStyle = 'white';
+      ctx.font = `bold ${size * 0.6}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('A', size / 2, size / 2 + size * 0.05);
+
+      return canvas;
+    }
+
+    sizes.forEach(size => {
+      const canvas = drawIcon(size);
+
+      const div = document.createElement('div');
+      div.className = 'icon-preview';
+      div.innerHTML = `<p>icon${size}.png (${size}x${size})</p>`;
+      div.appendChild(canvas);
+      container.appendChild(div);
+
+      // Create download link
+      const link = document.createElement('a');
+      link.download = `icon${size}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.textContent = `Download icon${size}.png`;
+      link.style.marginLeft = '10px';
+      downloads.appendChild(link);
+    });
+
+    // Auto-download all
+    const downloadAllBtn = document.createElement('button');
+    downloadAllBtn.textContent = 'Download All Icons';
+    downloadAllBtn.onclick = () => {
+      downloads.querySelectorAll('a').forEach(link => link.click());
+    };
+    container.insertAdjacentElement('afterend', downloadAllBtn);
+  </script>
+</body>
+</html>
